@@ -29,7 +29,7 @@ flake8: venv
 
 .PHONY: unit_tests
 unit_tests:
-	. $(in_venv); nosetests -q --with-xunit --exe --cover-erase -a '!wip' \
+	. $(in_venv); nosetests $(py_pkg) -q --with-xunit --exe --cover-erase -a '!wip' \
 		--with-coverage --cover-package=$(py_pkg)
 	$(call green,"[Unit tests successful]")
 
