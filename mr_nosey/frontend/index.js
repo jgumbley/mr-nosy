@@ -1,8 +1,5 @@
 var LiteralJSON = React.createClass({
-  getInitialState: function() {
-      return {json: "loading.."};
-        },
-  componentDidMount: function() {
+  loadFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -15,6 +12,13 @@ var LiteralJSON = React.createClass({
       }.bind(this)
     });
   },
+  getInitialState: function() {
+      return {json: "loading.."};
+        },
+  componentDidMount: function() {
+    this.loadFromServer();
+    setInterval(this.loadFromServer, this.props.poll);
+  },
   render: function() {
     return (
       <code className="LiteralJSON" id="language-json">
@@ -25,7 +29,7 @@ var LiteralJSON = React.createClass({
 });
 
 React.render(
-  <LiteralJSON url="api"/>,
+  <LiteralJSON url="api" poll={2000}/>,
   document.getElementById('content')
 );
 
