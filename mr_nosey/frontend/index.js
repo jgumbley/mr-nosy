@@ -15,9 +15,10 @@ var LiteralJSON = React.createClass({
   getInitialState: function() {
       return {json: "loading..",
               debug: true };
-        },
+  },
   componentDidMount: function() {
     this.loadFromServer();
+    console.log("yo blair");
     setInterval(this.loadFromServer, this.props.poll);
   },
   render: function() {
@@ -26,7 +27,7 @@ var LiteralJSON = React.createClass({
         <div className="checkbox">
             <label>
                 <input type='checkbox'
-                    onChange={this.onToggleErrorsOnly} 
+                    onChange={this.onToggleDebug} 
                     value={this.state.debug} />
                 Show debug
             </label>
