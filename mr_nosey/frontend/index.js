@@ -13,7 +13,8 @@ var LiteralJSON = React.createClass({
     });
   },
   getInitialState: function() {
-      return {json: "loading.."};
+      return {json: "loading..",
+              debug: true };
         },
   componentDidMount: function() {
     this.loadFromServer();
@@ -21,9 +22,19 @@ var LiteralJSON = React.createClass({
   },
   render: function() {
     return (
-      <code className="LiteralJSON" id="language-json">
-        {this.state.json}
-      </code>
+      <div className="LiteralJSON">
+        <div className="checkbox">
+            <label>
+                <input type='checkbox'
+                    onChange={this.onToggleErrorsOnly} 
+                    value={this.state.debug} />
+                Show debug
+            </label>
+        </div>
+          <code id="language-json">
+            {this.state.json}
+          </code>
+      </div>
     );
   }
 });

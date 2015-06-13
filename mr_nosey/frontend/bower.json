@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "react": "v0.13.3",
+    "d3": "3.5.5",
     "bootstrap": "~3.3.1"
   }
 }

@@ -9,8 +9,9 @@ app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
 @app.route("/api")
 def hello():
-    data = {"data": str(uuid.uuid1())}
-    return jsonify(data)
+    req_id = str(uuid.uuid1())
+    data = {"req_id": req_id}
+    return jsonify({"data": data})
 
 if __name__ == "__main__":
     app.run()
