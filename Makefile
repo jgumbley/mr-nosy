@@ -2,7 +2,7 @@ define green
 	@tput setaf 2; tput bold; echo $1; tput sgr0
 endef
 in_venv=venv/bin/activate
-py_pkg=mr_nosey_api
+py_pkg=mr_nosey
 
 .PHONY: default
 default: venv clean_pyc flake8 unit_tests grunt
@@ -10,7 +10,7 @@ default: venv clean_pyc flake8 unit_tests grunt
 
 .PHONY: grunt
 grunt:
-	cd mr_nosey_web; grunt
+	cd mr_nosey/frontend; grunt
 	$(call green,"[Javascript build OK]")
 
 venv: venv/bin/activate
@@ -42,8 +42,7 @@ wheel: venv default
 
 .PHONY: run
 run: kill venv grunt
-	cd mr_nosey_web; python -m SimpleHTTPServer 5001 &
-	. $(in_venv); python mr_nosey_api/webapp.py &
+	. $(in_venv); python $(py_pkg)/webapp.py &
 	$(call green,"[Running those ones]")
 
 .PHONY: kill
