@@ -9,4 +9,4 @@ class WebappTestCase(unittest.TestCase):
 
     def test_hello_world(self):
         result = self.app.get("/")
-        assert_that(result.data, equal_to("Hello World!"))
+        assert_that(result.data, equal_to('{\n  "data": "something"\n}'))
