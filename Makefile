@@ -41,8 +41,15 @@ wheel: venv default
 	$(call green,"[Build of wheel successful]")
 
 .PHONY: run
-run: venv
-	. $(in_venv); python mr_nosey/webapp.py
+run: venv grunt
+	cd mr_nosey_web; python -m SimpleHTTPServer 5001 &
+	. $(in_venv); python mr_nosey_api/webapp.py &
+	$(call green,"[Running those ones]")
+
+.PHONY: kill
+kill:
+	killall python
+	$(call green,"[Killed those ones]")
 
 .PHONY: clean
 clean:
