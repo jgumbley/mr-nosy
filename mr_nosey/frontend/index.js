@@ -57,7 +57,8 @@ var LiteralJSON = React.createClass({
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
             <DebugPanel json={this.state.json}/>
-        ): null}
+            ): null
+        }
       </div>
     );
   }
@@ -71,8 +72,6 @@ var D3Chart = React.createClass({
     );
     }
 });
-
-
 
 React.render(
   <LiteralJSON url="api" poll={2000}/>,
@@ -98,7 +97,7 @@ var svg = d3.select("div.D3Chart").append("svg")
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 
-d3.json("graph.json", function(error, json) {
+d3.json("api", function(error, json) {
   if (error) throw error;
 
   root = json;
