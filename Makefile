@@ -5,8 +5,13 @@ in_venv=venv/bin/activate
 py_pkg=mr_nosey_api
 
 .PHONY: default
-default: venv clean_pyc flake8 unit_tests
+default: venv clean_pyc flake8 unit_tests grunt
 	$(call green,"[Build successful]")
+
+.PHONY: grunt
+grunt:
+	cd mr_nosey_web; grunt
+	$(call green,"[Javascript build OK]")
 
 venv: venv/bin/activate
 venv/bin/activate: requirements.test.txt
