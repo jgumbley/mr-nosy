@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>1950s Diamond Vault</title>
+    <link rel="stylesheet" href="/css/libs.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="#">Attack Tree</a></li>
+            <li role="presentation"><a href="#">Control Tables</a></li>
+            <li role="presentation"><a href="#">Impact Matrix</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">1950s Diamond Vault</h3>
+        </div>
+
+        <hr/>
+        <section id="slider-v1">
+            <input type="range" max="100"/>
+            <hr/>
+            <span class="numbers">____</span>
+        </section>
+        <hr/>
+            <div class="bs-example">
+                <table class="table">
+                <caption>We stole the jewels.</caption>
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Summary</th>
+                  <th>Cost</th>
+                  <th>Complexity</th>
+                  <th>Risk</th>
+                  <th>Return</th>
+                  <th>Replay</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>By digging a tunnel from next door</td>
+                  <td>£1000</td>
+                  <td>10</td>
+                  <td>20</td>
+                  <td>£10000</td>
+                  <td>0</td>
+                </tr>
+                </tbody>
+                </table>
+          </div>
+        <hr/>
+    </div>
+    <script src="/js/libs.js"></script>
+    <script src="/js/reactive.js"></script>
+    <script>
+        var $label, $slider;
+        $slider = $('#slider-v1 input');
+        $label = $('#slider-v1 .numbers');
+        wireUpSliderToLabel($slider, $label);
+    </script>
+</body>
+</html>
