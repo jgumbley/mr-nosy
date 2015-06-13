@@ -6,10 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Mr Nosey - Liked to know about everything that was going on</title>
     <link rel="stylesheet" href="/css/libs.css">
+    <style>
+    .node circle {
+      cursor: pointer;
+      stroke: #3182bd;
+      stroke-width: 1.5px;
+    }
+
+    .node text {
+      font: 10px sans-serif;
+      pointer-events: none;
+      text-anchor: middle;
+    }
+
+    line.link {
+      fill: none;
+      stroke: #9ecae1;
+      stroke-width: 1.5px;
+    }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Lets show or hide the JSON based on state</h1>
+        <h1>Lets show a force directed graph</h1>
         <div id="content"></div>
     </div>
     <script src="/js/libs.js"></script>
