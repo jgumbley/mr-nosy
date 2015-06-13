@@ -48,7 +48,7 @@ run: kill venv grunt
 
 .PHONY: kill
 kill:
-	killall python
+	killall python &
 	$(call green,"[Killed those ones]")
 
 .PHONY: clean

@@ -13,7 +13,7 @@ module.exports = function(grunt) {
             dest: 'js/libs.js',
             cssDest: 'css/libs.css',
             dependencies: {
-              'bacon': 'jquery',
+              'react': 'jquery',
             }
           }
         },
