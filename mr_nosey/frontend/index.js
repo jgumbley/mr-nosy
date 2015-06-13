@@ -1,8 +1,33 @@
+var DebugPanel = React.createClass({
+    render: function() { return (
+      <pre id="language-html">
+        {this.props.json}
+      </pre>
+    )}
+});
+
+var ToggleDebugPanelCheckbox = React.createClass({
+    handleChange: function(e) { 
+        this.props.onUpdate(this.props.checked);
+        return;
+    },
+    render: function() { return (
+        <div className="checkbox">
+            <label>
+                <input type='checkbox'
+                    onChange={this.handleChange} 
+                    checked={this.props.checked} />
+                Show debug
+            </label>
+        </div>
+    )}
+});
+
 var LiteralJSON = React.createClass({
   loadFromServer: function() {
     $.ajax({
       url: this.props.url,
-      dataType: 'json',
+      dataType: 'text',
       cache: false,
       success: function(json) {
         this.setState({json: json});
@@ -14,27 +39,22 @@ var LiteralJSON = React.createClass({
   },
   getInitialState: function() {
       return {json: "loading..",
-              debug: true };
+              debug: false };
+  },
+  handleUpdateDebugState: function(currentState) {
+      this.setState({ debug: !( currentState ) });
   },
   componentDidMount: function() {
     this.loadFromServer();
-    console.log("yo blair");
     setInterval(this.loadFromServer, this.props.poll);
   },
   render: function() {
     return (
       <div className="LiteralJSON">
-        <div className="checkbox">
-            <label>
-                <input type='checkbox'
-                    onChange={this.onToggleDebug} 
-                    value={this.state.debug} />
-                Show debug
-            </label>
-        </div>
-          <code id="language-json">
-            {this.state.json}
-          </code>
+        <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
+        { this.state.debug ? (
+            <DebugPanel json={this.state.json}/>
+        ): null}
       </div>
     );
   }
