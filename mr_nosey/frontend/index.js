@@ -52,6 +52,7 @@ var LiteralJSON = React.createClass({
     return (
       <div className="LiteralJSON">
         <hr/>
+        <D3Chart />
         <hr/>
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
@@ -61,6 +62,23 @@ var LiteralJSON = React.createClass({
     );
   }
 });
+
+var D3Chart = React.createClass({
+  render: function() {
+    return (
+      <div className="D3Chart">
+      </div>
+    );
+    }
+});
+
+
+
+React.render(
+  <LiteralJSON url="api" poll={2000}/>,
+  document.getElementById('content')
+);
+
 
 var width = 960,
     height = 500,
@@ -73,7 +91,7 @@ var force = d3.layout.force()
     .size([width, height])
     .on("tick", tick);
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("div.D3Chart").append("svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -167,10 +185,4 @@ function flatten(root) {
   recurse(root);
   return nodes;
 }
-
-React.render(
-  <LiteralJSON url="api" poll={2000}/>,
-  document.getElementById('content')
-);
-
 
