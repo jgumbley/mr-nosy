@@ -1,8 +1,3 @@
-var data = [
-    {author: "Pete Hunt", text: "This is one comment"},
-    {author: "Jordan Walke", text: "This is *another* comment"}
-];
-
 var LiteralJSON = React.createClass({
   getInitialState: function() {
       return {json: "loading.."};
@@ -30,7 +25,7 @@ var LiteralJSON = React.createClass({
 });
 
 React.render(
-  <LiteralJSON url="http://localhost:5000/"/>,
+  <LiteralJSON url="api"/>,
   document.getElementById('content')
 );
 

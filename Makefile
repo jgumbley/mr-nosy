@@ -41,7 +41,7 @@ wheel: venv default
 	$(call green,"[Build of wheel successful]")
 
 .PHONY: run
-run: kill venv grunt
+run: kill venv 
 	. $(in_venv); python $(py_pkg)/webapp.py &
 	$(call green,"[Running those ones]")
 

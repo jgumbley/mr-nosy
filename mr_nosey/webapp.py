@@ -8,7 +8,7 @@ app.add_url_rule('/', 'root', lambda: app.send_static_file('index.html'))
 
 @app.route("/api")
 def hello():
-    data = {"data": "something"}
+    data = {"data": "yo blair"}
     return jsonify(data)
 
 if __name__ == "__main__":
