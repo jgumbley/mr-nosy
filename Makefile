@@ -1,11 +1,8 @@
 define green
-	@tput setaf 2
-	@tput bold
-	@echo $1
-	@tput sgr0
+	@tput setaf 2; tput bold; echo $1; tput sgr0
 endef
 in_venv=venv/bin/activate
-py_pkg=mr_nosey
+py_pkg=mr_nosey_api
 
 .PHONY: default
 default: venv clean_pyc flake8 unit_tests
