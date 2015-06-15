@@ -52,7 +52,7 @@ var LiteralJSON = React.createClass({
     return (
       <div className="LiteralJSON">
         <hr/>
-        <D3Chart width={1140} height={100}/>
+        <D3Chart width={1140} height={100} message={this.state.json}/>
         <hr/>
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
@@ -71,9 +71,17 @@ var D3Chart = React.createClass({
       </div>
     );
     },
+   componentDidUpdate: function() {
+   /* Seems not unreasonable to have the D3 initialise in here
+    */
+        this.updateD3();
+    },
    componentDidMount: function() {
    /* Seems not unreasonable to have the D3 initialise in here
     */
+        this.updateD3();
+    },
+   updateD3: function() {
     var svg = d3.select("div.D3Chart").append("svg")
         .attr("width", this.props.width)
         .attr("height", this.props.height);
@@ -83,6 +91,13 @@ var D3Chart = React.createClass({
             .attr('y',10)
             .attr('width', 100)
             .attr('height', 20);
+        svg.append('text')
+            .classed('book-label','true')
+            .attr('x', 120)
+            .attr('y', 20)
+            .attr('text-anchor', 'start')
+            .attr('fill','black')
+            .text(this.props.message);
      console.log("hello bim");
    }
 });
