@@ -52,7 +52,7 @@ var LiteralJSON = React.createClass({
     return (
       <div className="LiteralJSON">
         <hr/>
-        <D3Chart />
+        <D3Chart width={900} height={1000}/>
         <hr/>
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
@@ -70,7 +70,16 @@ var D3Chart = React.createClass({
       <div className="D3Chart">
       </div>
     );
-    }
+    },
+   componentDidMount: function() {
+   /* Seems not unreasonable to have the D3 initialise in here
+    * however, it happens before render!
+    */
+    var svg = d3.select("div.D3Chart").append("svg")
+        .attr("width", this.props.width)
+        .attr("height", this.props.height);
+     console.log("hello bim");
+   }
 });
 
 React.render(
@@ -90,7 +99,7 @@ var force = d3.layout.force()
     .size([width, height])
     .on("tick", tick);
 
-var svg = d3.select("div.D3Chart").append("svg")
+var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
