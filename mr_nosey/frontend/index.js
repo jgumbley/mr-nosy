@@ -27,7 +27,7 @@ var LiteralJSON = React.createClass({
   loadFromServer: function() {
     $.ajax({
       url: this.props.url,
-      dataType: 'text',
+      dataType: 'json',
       cache: false,
       success: function(json) {
         this.setState({json: json});
@@ -56,7 +56,7 @@ var LiteralJSON = React.createClass({
         <hr/>
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
-            <DebugPanel json={this.state.json}/>
+            <DebugPanel json={JSON.stringify(this.state.json)}/>
             ): null
         }
       </div>
