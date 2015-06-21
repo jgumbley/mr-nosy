@@ -38,7 +38,7 @@ var LiteralJSON = React.createClass({
     });
   },
   getInitialState: function() {
-      return {json: "loading..",
+      return {json: {data: { children:{} }},
               debug: false };
   },
   handleUpdateDebugState: function(currentState) {
@@ -84,19 +84,33 @@ var D3Chart = React.createClass({
         this.svg
             .attr("width", this.props.width)
             .attr("height", this.props.height);
+       
+        this.force = d3.layout.force()
+            .charge(-220)
+            .size([this.props.width, this.props.height]);
+
         
         this.updateD3();
     },
    updateD3: function() {
-        
-        this.circleJoin = this.svg.selectAll("circle")
-                    .data(["50", "200"]);
 
-        this.circleJoin.enter().append("circle")
+        this.force.nodes(this.props.data.data.children);
+        
+        var circleJoin = this.svg.selectAll("circle")
+                    .data(this.props.data.data.children);
+
+        circleJoin.enter().append("circle")
                 .attr("r", 30)
-                .attr("cx", 100)
-                .attr("cy", function(d) {return d;})
-                .text("hello");
+                .call(this.force.drag());
+
+        circleJoin.exit().remove();
+
+        this.force.on('tick', function() {
+            circleJoin.attr('cx', function(d) { return d.x; })
+                .attr('cy', function(d) { return d.y; });
+        });
+
+        this.force.start();
         
    }
 });
