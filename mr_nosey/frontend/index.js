@@ -94,15 +94,40 @@ var D3Chart = React.createClass({
     },
    updateD3: function() {
 
-        console.log(this.props.data.data.children);
-        console.log(this.force.nodes());
+        console.log("updating force directed layout");
 
-        this.force.nodes(this.props.data.data.children);
-
+        var currentArray = this.force.nodes();
+        var newArray = [];
         
-        this.circleJoin = this.svg.selectAll("circle")
-                .data(this.force.nodes());
+        var lookup = {};
+        for (var i = 0, len = currentArray.length; i < len; i++) {
+            lookup[currentArray[i].name] = currentArray[i];
+            };
 
+        var inputArray = this.props.data.data.children;
+        console.log(inputArray);
+
+        for (i = 0; i < inputArray.length; i++) { 
+            var item = inputArray[i];
+            var name = inputArray[i].name;
+             if(typeof lookup[name] === 'undefined'){
+                console.log("adding");
+                newArray.push(item);
+                } else {
+                newArray.push(lookup[name]);
+                };
+            };
+
+       console.log(newArray);
+
+
+        this.force.nodes(newArray);
+
+        this.circleJoin = this.svg.selectAll("circle")
+                .data(this.force.nodes(), 
+                      function(d) { 
+                        return d.name; }
+                      );
 
         this.circleJoin.enter().append("circle")
                 .attr("r", 30)
@@ -111,7 +136,6 @@ var D3Chart = React.createClass({
         this.circleJoin.exit().remove();
 
         this.force.on('tick', function() {
-            console.log(this);
             this.circleJoin.attr('cx', function(d) { return d.x; })
                 .attr('cy', function(d) { return d.y; });
         }.bind(this));
