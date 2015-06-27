@@ -13,9 +13,9 @@ def hello():
     data = {"req_id": req_id,
             "name": "steve",
             "children": [
-                { "x": 100, "y": 100 },
-                { "x": 130, "y": 140 },
-                { "x": 140, "y": 150 },
+                { "name": "steve"},
+                { "name": "banny"},
+                { "name": "egg"},
             ]
             }
     return jsonify({"data": data})

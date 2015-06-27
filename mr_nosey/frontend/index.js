@@ -74,7 +74,6 @@ var D3Chart = React.createClass({
    componentDidUpdate: function() {
    /* Seems not unreasonable to have the D3 initialise in here
     */
-        console.log(this.props.data.data.children);
         this.updateD3();
     },
    componentDidMount: function() {
@@ -89,26 +88,33 @@ var D3Chart = React.createClass({
             .charge(-220)
             .size([this.props.width, this.props.height]);
 
+
         
         this.updateD3();
     },
    updateD3: function() {
 
-        this.force.nodes(this.props.data.data.children);
-        
-        var circleJoin = this.svg.selectAll("circle")
-                    .data(this.props.data.data.children);
+        console.log(this.props.data.data.children);
+        console.log(this.force.nodes());
 
-        circleJoin.enter().append("circle")
+        this.force.nodes(this.props.data.data.children);
+
+        
+        this.circleJoin = this.svg.selectAll("circle")
+                .data(this.force.nodes());
+
+
+        this.circleJoin.enter().append("circle")
                 .attr("r", 30)
                 .call(this.force.drag());
 
-        circleJoin.exit().remove();
+        this.circleJoin.exit().remove();
 
         this.force.on('tick', function() {
-            circleJoin.attr('cx', function(d) { return d.x; })
+            console.log(this);
+            this.circleJoin.attr('cx', function(d) { return d.x; })
                 .attr('cy', function(d) { return d.y; });
-        });
+        }.bind(this));
 
         this.force.start();
         
