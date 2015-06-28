@@ -18,4 +18,4 @@ def init_usb(driver, iface):
             check_command(['airmon-ng', 'start', iface], iface)
 
 if __name__ == "__main__":
-    init_usb('Atheros', 'wlan1')
+    init_usb('Atheros', 'wlan0')

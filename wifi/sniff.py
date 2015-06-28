@@ -3,11 +3,6 @@
 from color import *
 from netaddr import EUI
 from scapy.all import *
-from dnslib import DNSRecord # for mdns/bonjour name parsing
-from django.utils import timezone
-from django.core.exceptions import *
-from datetime import datetime #for utcfromtimestamp
-from collections import defaultdict
 
 import re
 
@@ -29,13 +24,14 @@ probeReqs = []
 
 def jims(packet):
     p = packet
-    if p.haslayer(Dot11ProbeReq):
-        netName = p.getlayer(Dot11ProbeReq).info
-        if netName not in probeReqs:
-            probeReqs.append(netName)
-            msg= "mac=%s manuf=%s network='%s'" % (p.addr2, get_manuf(p.addr2),
-                                                   netName)
-            print ascii_printable(msg)
+    if p.haslayer(Dot11):
+        if p.getlayer(Dot11ProbeReq):
+            netName = p.getlayer(Dot11ProbeReq).info
+            if netName not in probeReqs:
+                probeReqs.append(netName)
+                msg= "mac=%s manuf=%s network='%s'" % (p.addr2, get_manuf(p.addr2),
+                                                       netName)
+                print ascii_printable(msg)
 
 sniff(iface='mon0', prn=lambda x:jims(x), store=0)
 

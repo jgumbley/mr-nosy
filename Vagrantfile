@@ -23,9 +23,9 @@ Vagrant::configure('2') do |config|
 
     kali.vm.provider :virtualbox do |vb|
       vb.customize ['modifyvm', :id, '--usb', 'on', '--usbehci', 'on']
-      vb.customize ['usbfilter', 'add', '0', '--target', :id,
-                    '--name', 'ATHEROS USB2.0 WLAN [0108]',
-                    '--vendorid', '0x0cf3', '--productid', '0x9271']
+      # vb.customize ['usbfilter', 'add', '0', '--target', :id,
+      #               '--name', 'ATHEROS USB2.0 WLAN [0108]',
+      #               '--vendorid', '0x0cf3', '--productid', '0x9271']
     end
 
     kali.vm.network "forwarded_port", guest: 5000, host: 5000, auto_correct: true
