@@ -7,6 +7,7 @@ from scapy.all import *
 import re
 
 interface = "mon0"
+# see: http://nullege.com/codes/show/src@a@i@airodump-iv-HEAD@airoiv@airodump-iv.py/20/scapy.layers.dot11.Dot11ProbeReq
 
 def ascii_printable(s):
 	return ''.join(i for i in s if ord(i)>31 and ord(i)<128)
