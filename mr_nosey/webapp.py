@@ -14,14 +14,14 @@ def hello():
     data = {"req_id": req_id,
             "name": "steve",
             "children": [
-                {"name": "steve"},
-                {"name": "banny"},
-                {"name": "egg"},
-                {"name": str(uuid.uuid1())},
+                {"name": "00:1C:B3:09:85:15", "type": "sta", "ap": "00:1C:B3:09:85:16"},
+                {"name": "00:1C:B3:09:85:16", "type": "ap"},
+                {"name": "00:1C:B3:09:85:17", "type": "sta", "ap": "00:1C:B3:09:85:16"},
+                {"name": str(uuid.uuid1()), "type": "sta", "ap": "00:1C:B3:09:85:16"}
             ]
             }
     return jsonify({"data": data})
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
