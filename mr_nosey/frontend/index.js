@@ -9,7 +9,7 @@ var DebugPanel = React.createClass({
 var ToggleDebugPanelCheckbox = React.createClass({
     handleChange: function(e) { 
         this.props.onUpdate(this.props.checked);
-        return;
+
     },
     render: function() { return (
         <div className="checkbox">
@@ -92,36 +92,34 @@ var D3Chart = React.createClass({
         
         this.updateD3();
     },
-   updateD3: function() {
-
-        console.log("updating force directed layout");
-
-        var currentArray = this.force.nodes();
+    reconcileNodes: function(currentNodes, updatedNodes ) {
+        /* reconcile any nodes which are already being displayed with the ones already in the force
+         directed layout so that x, y position are retained
+         */
         var newArray = [];
-        
+
         var lookup = {};
-        for (var i = 0, len = currentArray.length; i < len; i++) {
-            lookup[currentArray[i].name] = currentArray[i];
-            };
-
-        var inputArray = this.props.data.data.children;
-        console.log(inputArray);
-
-        for (i = 0; i < inputArray.length; i++) { 
-            var item = inputArray[i];
-            var name = inputArray[i].name;
-             if(typeof lookup[name] === 'undefined'){
-                console.log("adding");
+        for (var i = 0, len = currentNodes.length; i < len; i++) {
+            lookup[currentNodes[i].name] = currentNodes[i];
+        }
+        for (i = 0; i < updatedNodes.length; i++) {
+            var item = updatedNodes[i];
+            var name = updatedNodes[i].name;
+            if(typeof lookup[name] === 'undefined'){
                 newArray.push(item);
-                } else {
+            } else {
                 newArray.push(lookup[name]);
-                };
-            };
-
-       console.log(newArray);
-
-
-        this.force.nodes(newArray);
+            }
+        }
+        return newArray;
+    },
+   updateD3: function() {
+        this.force.nodes(
+            this.reconcileNodes(
+                this.force.nodes(),
+                this.props.data.data.children
+            )
+        );
 
         this.circleJoin = this.svg.selectAll("circle")
                 .data(this.force.nodes(), 
