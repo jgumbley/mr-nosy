@@ -15,6 +15,11 @@ Vagrant::configure('2') do |config|
       v.customize ['modifyvm', :id, '--name', 'kali-mr-noseybox']
       v.customize ['modifyvm', :id, '--memory', 1024]
       v.customize ['modifyvm', :id, '--macaddress3', '0800276cf835']
-      end
+    end
+
+    kali.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provisioning/provision.yml"
+    end
+
     end
 end

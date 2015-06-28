@@ -1,0 +1,11 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+      oracle_zip: oracle-xe-11.2.0-1.0.x86_64.rpm.zip
+  tasks:
+    - name: ensure packages required are installed
+      apt: pkg={{item}} state=latest
+      with_items:
+        - git
+
