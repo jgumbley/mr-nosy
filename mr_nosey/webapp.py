@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 import uuid
+
 app = Flask(__name__,
             static_url_path='',
             static_folder='frontend'
@@ -13,13 +14,14 @@ def hello():
     data = {"req_id": req_id,
             "name": "steve",
             "children": [
-                { "name": "steve"},
-                { "name": "banny"},
-                { "name": "egg"},
-                { "name": str(uuid.uuid1()) },
+                {"name": "steve"},
+                {"name": "banny"},
+                {"name": "egg"},
+                {"name": str(uuid.uuid1())},
             ]
             }
     return jsonify({"data": data})
+
 
 if __name__ == "__main__":
     app.run()
