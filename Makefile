@@ -21,7 +21,7 @@ venv/bin/activate: requirements.test.txt
 
 .PHONY: clean_pyc
 clean_pyc:
-	find . -name "$(py_pkg)/*.pyc" -delete
+	find . -wholename "$(py_pkg)/*.pyc" -delete
 	$(call green,"[Cleanup loitering pyc files]")
 
 .PHONY: flake8

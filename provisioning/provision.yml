@@ -8,6 +8,7 @@
       apt: pkg={{item}} state=latest
       with_items:
         - git
+        - htop
         - redis-server
         - python-virtualenv
 

@@ -21,5 +21,7 @@ Vagrant::configure('2') do |config|
       ansible.playbook = "provisioning/provision.yml"
     end
 
+    kali.vm.network "forwarded_port", guest: 5000, host: 5000, auto_correct: true
+
     end
 end
