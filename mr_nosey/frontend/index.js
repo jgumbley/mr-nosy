@@ -38,8 +38,8 @@ var LiteralJSON = React.createClass({
     });
   },
   getInitialState: function() {
-      return {json: {data: { children:{} }},
-              debug: false };
+      return {json: {data: { children:[] },
+              debug: false }};
   },
   handleUpdateDebugState: function(currentState) {
       this.setState({ debug: !( currentState ) });
@@ -92,26 +92,25 @@ var D3Chart = React.createClass({
         
         this.updateD3();
     },
-    reconcileNodes: function(currentNodes, updatedNodes ) {
+    reconcileNodes: function(currentNodes, updatedNodes) {
         /* reconcile any nodes which are already being displayed with the ones already in the force
          directed layout so that x, y position are retained
          */
-        var newArray = [];
+        var currentNodesByKey = currentNodes.reduce(
+            function(acc, item) { acc[item.name] = item; return acc; }, {}
+        );
 
-        var lookup = {};
-        for (var i = 0, len = currentNodes.length; i < len; i++) {
-            lookup[currentNodes[i].name] = currentNodes[i];
-        }
-        for (i = 0; i < updatedNodes.length; i++) {
-            var item = updatedNodes[i];
-            var name = updatedNodes[i].name;
-            if(typeof lookup[name] === 'undefined'){
-                newArray.push(item);
-            } else {
-                newArray.push(lookup[name]);
+        function keyNotAlreadyIn(name) {return typeof currentNodesByKey[name] === 'undefined'}
+
+        return updatedNodes.map(
+            function (item) {
+                if (keyNotAlreadyIn(item.name)) {
+                    return item;
+                } else {
+                    return currentNodesByKey[item.name];
+                }
             }
-        }
-        return newArray;
+        );
     },
    updateD3: function() {
         this.force.nodes(
