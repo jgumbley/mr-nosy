@@ -54,7 +54,7 @@ var LiteralJSON = React.createClass({
         <D3Chart width={1920} height={1080} data={this.state.json.data.radios}/>
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
-            <DebugPanel json={JSON.stringify(this.state.json)}/>
+            <DebugPanel json={JSON.stringify(this.state.json, null, 2)}/>
             ): null
         }
       </div>
@@ -86,8 +86,6 @@ var D3Chart = React.createClass({
             .charge(-220)
             .size([this.props.width, this.props.height]);
 
-
-        
         this.updateD3();
     },
     reconcileNodes: function(currentNodes, updatedNodes) {
