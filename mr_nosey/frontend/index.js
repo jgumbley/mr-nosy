@@ -81,6 +81,9 @@ var D3Chart = React.createClass({
         this.svg
             .attr("width", this.props.width)
             .attr("height", this.props.height);
+
+       this.svg.append("g").attr("id", "links");
+       this.svg.append("g").attr("id", "nodes");
        
         this.force = d3.layout.force()
             .charge(-220)
@@ -109,6 +112,12 @@ var D3Chart = React.createClass({
         );
     },
    updateD3: function() {
+       /* obviously this is a heuristic at best */
+       if (this.force.nodes().length != this.props.data.length) {
+           this.processUpdate();
+       };
+   },
+   processUpdate: function() {
         var nodes = this.reconcileNodes(
                 this.force.nodes(),
                 this.props.data
@@ -121,6 +130,7 @@ var D3Chart = React.createClass({
 
         var links = nodes
                     .filter( function (node) { return !(node.ap) })
+                    .filter( function (node) { return "assoc_with" in node })
                     .map( function (node) {
                         var target = currentNodesByKey[node.name];
                         var source = currentNodesByKey[node.assoc_with];
@@ -133,16 +143,19 @@ var D3Chart = React.createClass({
        this.force
             .links(links);
 
-       this.force.linkDistance(40);
+       this.force.linkDistance(30);
 
-        this.linkJoin = this.svg.selectAll('.link')
+        this.linkJoin = this.svg.select("#links").selectAll('.link')
            .data(this.force.links());
 
         this.linkJoin
            .enter().append('line')
            .attr('class', 'link');
 
-        this.circleJoin = this.svg.selectAll("circle")
+       this.linkJoin
+            .exit().remove();
+
+        this.circleJoin = this.svg.select("#nodes").selectAll("circle")
                 .data(this.force.nodes(), 
                       function(d) { 
                         return d.name; }
@@ -159,16 +172,17 @@ var D3Chart = React.createClass({
         this.circleJoin.exit().remove();
 
         this.force.on('tick', function() {
-            this.circleJoin
-                .attr('cx', function(d) { return d.x; })
-                .attr('cy', function(d) { return d.y; });
             this.linkJoin
                 .attr('x1', function(d) { return d.source.x; })
                 .attr('y1', function(d) { return d.source.y; })
                 .attr('x2', function(d) { return d.target.x; })
                 .attr('y2', function(d) { return d.target.y; });
+            this.circleJoin
+                .attr('cx', function(d) { return d.x; })
+                .attr('cy', function(d) { return d.y; });
         }.bind(this));
 
+        this.force.alpha(0.1);
         this.force.start();
    }
 });

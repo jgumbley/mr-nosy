@@ -32,5 +32,7 @@ def drip_net():
         add(rand_uid(), assoc_with=ap_name)
         sleep(2)
 
-for a in range(100):
+for a in range(20):
+    for a in range(10):
+        add(rand_uid(), ap=False)
     drip_net()
