@@ -1,4 +1,4 @@
-# Mr Nosey
+# Mr Nosy
 
 ![alt tag](https://raw.githubusercontent.com/jgumbley/mr-nosey/master/docs/mr-nosey.jpg)
 
