@@ -52,7 +52,7 @@ var LiteralJSON = React.createClass({
     return (
       <div className="LiteralJSON">
         <hr/>
-        <D3Chart width={1140} height={400} data={this.state.json}/>
+        <D3Chart width={1920} height={1080} data={this.state.json}/>
         <hr/>
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
@@ -103,11 +103,11 @@ var D3Chart = React.createClass({
         function keyNotAlreadyIn(name) {return typeof currentNodesByKey[name] === 'undefined'}
 
         return updatedNodes.map(
-            function (item) {
-                if (keyNotAlreadyIn(item.name)) {
-                    return item;
+            function (node) {
+                if (keyNotAlreadyIn(node.name)) {
+                    return node;
                 } else {
-                    return currentNodesByKey[item.name];
+                    return currentNodesByKey[node.name];
                 }
             }
         );

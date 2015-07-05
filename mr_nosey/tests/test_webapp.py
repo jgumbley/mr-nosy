@@ -7,6 +7,6 @@ class WebappTestCase(unittest.TestCase):
     def setUp(self):
         self.app = webapp.app.test_client()
 
-    def test_hello_world(self):
+    def test_hello_w(self):
         result = self.app.get("/api")
         assert_that(result.data, equal_to('{\n  "data": "something"\n}'))
