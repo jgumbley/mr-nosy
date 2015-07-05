@@ -51,9 +51,7 @@ var LiteralJSON = React.createClass({
   render: function() {
     return (
       <div className="LiteralJSON">
-        <hr/>
         <D3Chart width={1920} height={1080} data={this.state.json}/>
-        <hr/>
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
             <DebugPanel json={JSON.stringify(this.state.json)}/>
