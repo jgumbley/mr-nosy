@@ -109,12 +109,35 @@ var D3Chart = React.createClass({
         );
     },
    updateD3: function() {
-        this.force.nodes(
-            this.reconcileNodes(
+        var nodes = this.reconcileNodes(
                 this.force.nodes(),
                 this.props.data
-            )
-        );
+            );
+
+       var currentNodesByKey = nodes.reduce(
+           function(acc, item) { acc[item.name] = item; return acc; }, {}
+       );
+
+       this.force
+           .nodes(nodes);
+
+        var links = nodes
+                    .filter( function (node) { return !(node.ap) })
+                    .map( function (node) {
+                        var target = currentNodesByKey[node.name];
+                        var source = currentNodesByKey[node.assoc_with];
+                        return {source: source, target: target};
+            });
+
+       this.force
+            .links(links);
+
+       this.force.linkDistance(40);
+
+        this.linkJoin = this.svg.selectAll('.link')
+           .data(links)
+           .enter().append('line')
+           .attr('class', 'link');
 
         this.circleJoin = this.svg.selectAll("circle")
                 .data(this.force.nodes(), 
@@ -133,12 +156,17 @@ var D3Chart = React.createClass({
         this.circleJoin.exit().remove();
 
         this.force.on('tick', function() {
-            this.circleJoin.attr('cx', function(d) { return d.x; })
+            this.circleJoin
+                .attr('cx', function(d) { return d.x; })
                 .attr('cy', function(d) { return d.y; });
+            this.linkJoin
+                .attr('x1', function(d) { return d.source.x; })
+                .attr('y1', function(d) { return d.source.y; })
+                .attr('x2', function(d) { return d.target.x; })
+                .attr('y2', function(d) { return d.target.y; });
         }.bind(this));
 
         this.force.start();
-        
    }
 });
 

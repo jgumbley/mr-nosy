@@ -25,8 +25,12 @@ def rand_uid():
     return str(uuid.uuid1())
 
 post("/api/blank_radios", None)
-ap_name=rand_uid()
-add(ap_name, ap=True)
-for a in range(300):
-    add(rand_uid(), assoc_with=ap_name)
-    sleep(2)
+def drip_net():
+    ap_name=rand_uid()
+    add(ap_name, ap=True)
+    for a in range(10):
+        add(rand_uid(), assoc_with=ap_name)
+        sleep(2)
+
+for a in range(100):
+    drip_net()
