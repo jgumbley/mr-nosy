@@ -4,14 +4,29 @@ import requests
 import json
 import uuid
 from time import sleep
+from urlparse import urljoin
 
-def add(ap=False):
-    url = "http://localhost:5000/api/merge_radio"
-    radio = {'name':  str(uuid.uuid1()), 'ap': ap}
+URL = "http://localhost:5000/"
+
+def add(name, ap=False, assoc_with=None):
+    radio = {'name': name, 'ap': ap}
+    if assoc_with:
+        radio['assoc_with'] = assoc_with
+    post("/api/merge_radio", radio)
+
+
+def post(stem, data):
+    url = urljoin(URL, stem)
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    r = requests.post(url, data=json.dumps(radio), headers=headers)
+    r = requests.post(url, data=json.dumps(data), headers=headers)
 
-add(ap=True)
+
+def rand_uid():
+    return str(uuid.uuid1())
+
+post("/api/blank_radios", None)
+ap_name=rand_uid()
+add(ap_name, ap=True)
 for a in range(300):
-    add()
+    add(rand_uid(), assoc_with=ap_name)
     sleep(2)
