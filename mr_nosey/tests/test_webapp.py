@@ -15,7 +15,7 @@ class WebappTestCase(unittest.TestCase):
 
     def app_allradios(self):
         result = self.app.get("/api/all_radios")
-        return json.loads(result.data)["data"]
+        return json.loads(result.data)["data"]["radios"]
 
     def app_blankradios(self):
         self.app.post("/api/blank_radios")

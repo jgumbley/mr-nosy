@@ -63,7 +63,7 @@ def merge_radio():
 def all_radios():
     radios = get_radios()
     print jsonify(data=radios)
-    return jsonify(data=radios)
+    return jsonify(data={"radios": radios})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

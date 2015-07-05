@@ -38,7 +38,7 @@ var LiteralJSON = React.createClass({
     });
   },
   getInitialState: function() {
-      return {json: {data: { children:[] },
+      return {json: {data: { radios:[] },
               debug: false }};
   },
   handleUpdateDebugState: function(currentState) {
@@ -51,7 +51,7 @@ var LiteralJSON = React.createClass({
   render: function() {
     return (
       <div className="LiteralJSON">
-        <D3Chart width={1920} height={1080} data={this.state.json}/>
+        <D3Chart width={1920} height={1080} data={this.state.json.data.radios}/>
         <ToggleDebugPanelCheckbox checked={this.state.debug} onUpdate={this.handleUpdateDebugState} />
         { this.state.debug ? (
             <DebugPanel json={JSON.stringify(this.state.json)}/>
@@ -114,7 +114,7 @@ var D3Chart = React.createClass({
         this.force.nodes(
             this.reconcileNodes(
                 this.force.nodes(),
-                this.props.data.data.children
+                this.props.data
             )
         );
 
@@ -141,7 +141,7 @@ var D3Chart = React.createClass({
 });
 
 React.render(
-  <LiteralJSON url="api" poll={2000}/>,
+  <LiteralJSON url="api/all_radios" poll={2000}/>,
   document.getElementById('content')
 );
 
