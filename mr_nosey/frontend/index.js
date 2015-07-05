@@ -118,8 +118,6 @@ var D3Chart = React.createClass({
            function(acc, item) { acc[item.name] = item; return acc; }, {}
        );
 
-       this.force
-           .nodes(nodes);
 
         var links = nodes
                     .filter( function (node) { return !(node.ap) })
@@ -130,12 +128,17 @@ var D3Chart = React.createClass({
             });
 
        this.force
+           .nodes(nodes);
+
+       this.force
             .links(links);
 
        this.force.linkDistance(40);
 
         this.linkJoin = this.svg.selectAll('.link')
-           .data(links)
+           .data(this.force.links());
+
+        this.linkJoin
            .enter().append('line')
            .attr('class', 'link');
 
