@@ -36,6 +36,7 @@ class WebappTestCase(unittest.TestCase):
 
     def test_add_another_radio(self):
         # given
+        self.app_blankradios()
         radio = {u"name": u"a mac address"}
         radio2 = {u"name": u"another mac address"}
         # when

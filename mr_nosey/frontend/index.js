@@ -123,7 +123,11 @@ var D3Chart = React.createClass({
                       );
 
         this.circleJoin.enter().append("circle")
-                .attr("r", 30)
+                .attr("r", 10)
+                .style("fill",
+                    function(d) {
+                        return ((d.ap) ? "#FF3D00": "#FFBB00")
+                    })
                 .call(this.force.drag());
 
         this.circleJoin.exit().remove();
