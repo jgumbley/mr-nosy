@@ -2,8 +2,15 @@
 
 import requests
 import json
+import uuid
+from time import sleep
 
-url = "http://localhost:5000/api/merge_radio"
-radio = {'name': 'shoop'}
-headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-r = requests.post(url, data=json.dumps(radio), headers=headers)
+def add():
+    url = "http://localhost:5000/api/merge_radio"
+    radio = {'name':  str(uuid.uuid1())}
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    r = requests.post(url, data=json.dumps(radio), headers=headers)
+
+for a in range(300):
+    add()
+    sleep(2)
