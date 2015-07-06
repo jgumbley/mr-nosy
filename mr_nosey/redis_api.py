@@ -9,15 +9,11 @@ class Radio_API(object):
         self.redis = redis
 
     def get_radios(self):
-        result = []
-        for key in self.redis.scan_iter(match="radios|*"):
-            result.append(
-                json.loads(self.redis.get(key))
+        result = map(
+            lambda key: json.loads(self.redis.get(key)),
+            self.redis.scan_iter(match="radios|*")
             )
         return result
-
-    def set_radios(self, radios):
-        self.redis.set("radios", json.dumps(radios))
 
     def blank_radios(self):
         self.redis.flushdb()
