@@ -4,14 +4,16 @@ import json
 class Radio_API(object):
 
     KEY = "radio|"
+    KEY_MATCH = KEY + "*"
+    KEY_SEARCH = KEY + "%s"
 
     def __init__(self, redis):
         self.redis = redis
 
     def get_radios(self):
         result = map(
-            lambda key: json.loads(self.redis.get(key)),
-            self.redis.scan_iter(match="radios|*")
+            lambda radio: json.loads(self.redis.get(radio)),
+            self.redis.scan_iter(match=self.KEY_MATCH)
             )
         return result
 
@@ -28,5 +30,5 @@ class Radio_API(object):
     @staticmethod
     def _key_for_radio(radio):
         assert radio['name'] is not None
-        return "radios|%s" % (radio["name"])
+        return Radio_API.KEY_SEARCH % (radio["name"])
 
