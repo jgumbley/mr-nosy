@@ -46,3 +46,16 @@ class WebappTestCase(unittest.TestCase):
         both_radios = [radio, radio2]
         assert_that(self.app_allradios(), equal_to(both_radios))
 
+    def test_update_a_radio(self):
+        # given
+        self.app_blankradios()
+        radio = {u"name": u"a mac address", u"prop1": u"foo" }
+        radio2 = {u"name": u"a mac address", u"prop2": u"bar" }
+        # when
+        self.app_jsonpost("/api/merge_radio", radio)
+        self.app_jsonpost("/api/merge_radio", radio2)
+        # then
+        expected_result = {u"name": u"a mac address", u"prop1": u"foo",
+                           u"prop2": u"bar"}
+        assert_that(self.app_allradios(), equal_to(expected_result))
+

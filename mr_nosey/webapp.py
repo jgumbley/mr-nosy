@@ -1,4 +1,3 @@
-import json
 from flask import Flask, jsonify, request
 from flask_redis import Redis
 from redis_api import Radio_API

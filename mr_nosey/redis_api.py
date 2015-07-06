@@ -33,10 +33,9 @@ class Radio_API(object):
         self.redis.set(key, json.dumps(radio))
 
     def get_radio(self, key):
-        return self.redis.get(key)
+        return json.loads(self.redis.get(key))
 
     @staticmethod
     def _key_for_radio(radio):
         assert radio['name'] is not None
         return Radio_API.KEY_SEARCH % (radio["name"])
-
