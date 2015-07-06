@@ -12,34 +12,44 @@ app.config['REDIS_HOST'] = 'localhost'
 app.config['REDIS_PORT'] = 6379
 
 
-def get_radios():
-    radios = json.loads(redis.get("radios"))
-    if radios is None:
-        radios = []
-    return radios
+class Radio_API(object):
+    def get_radios(self):
+        redis.scan()
+        radios = json.loads(redis.get("radios"))
+        if radios is None:
+            radios = []
+        return radios
 
+    def set_radios(self, radios):
+        redis.set("radios", json.dumps(radios))
 
-def set_radios(radios):
-    redis.set("radios", json.dumps(radios))
+    def blank_radios(self):
+        self.set_radios([])
+
+    def merge_radio(self, radio):
+        radios = self.get_radios()
+        radios.append(radio)
+        self.set_radios(radios)
+
+radio_api = Radio_API()
 
 
 @app.route("/api/blank_radios", methods=['POST'])
 def blank_radios():
-    set_radios([])
+    radio_api.blank_radios()
     return "hello"
 
 
 @app.route("/api/merge_radio", methods=['POST'])
 def merge_radio():
-    radios = get_radios()
-    radios.append(request.json)
-    set_radios(radios)
+    radio = request.json
+    radio_api.merge_radio(radio)
     return "hello"
 
 
 @app.route("/api/all_radios", methods=['GET'])
 def all_radios():
-    radios = get_radios()
+    radios = radio_api.get_radios()
     return jsonify(data={"radios": radios})
 
 if __name__ == "__main__":
