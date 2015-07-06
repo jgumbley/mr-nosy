@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from scapy.all import Dot11, Dot11Beacon, sniff
+from scapy.layers.dot11 import Dot11ProbeReq
 from redis_api import RadioAPI
 import redis
 
@@ -24,12 +25,15 @@ def add_ap(mac, ssid):
 def add_sta(mac, ap_name):
     add(mac, assoc_with=ap_name)
 
-def add_sta_alone(mac):
-    add(mac, ap=False)
+def add_sta_alone(mac, probin):
+    add(mac, ap=False, ssid=probin)
 
 interface = "mon0"
 
 def interpret_packet(packet):
+    if packet.haslayer(Dot11ProbeReq):
+        probin_for = packet.getlayer(Dot11ProbeReq).info
+        add_sta_alone(packet.addr2, probin_for)
     if packet.haslayer(Dot11):
         if packet.type == 0 and packet.subtype == 8:
             add_ap(packet.addr2, packet.info)
