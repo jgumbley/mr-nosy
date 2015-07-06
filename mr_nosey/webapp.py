@@ -1,6 +1,7 @@
 import json
 from flask import Flask, jsonify, request
 from flask_redis import Redis
+from redis_api import Radio_API
 
 app = Flask(__name__,
             static_url_path='',
@@ -11,27 +12,7 @@ redis = Redis(app)
 app.config['REDIS_HOST'] = 'localhost'
 app.config['REDIS_PORT'] = 6379
 
-
-class Radio_API(object):
-    def get_radios(self):
-        redis.scan()
-        radios = json.loads(redis.get("radios"))
-        if radios is None:
-            radios = []
-        return radios
-
-    def set_radios(self, radios):
-        redis.set("radios", json.dumps(radios))
-
-    def blank_radios(self):
-        self.set_radios([])
-
-    def merge_radio(self, radio):
-        radios = self.get_radios()
-        radios.append(radio)
-        self.set_radios(radios)
-
-radio_api = Radio_API()
+radio_api = Radio_API(redis)
 
 
 @app.route("/api/blank_radios", methods=['POST'])
