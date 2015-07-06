@@ -11,7 +11,7 @@ redis = Redis(app)
 app.config['REDIS_HOST'] = 'localhost'
 app.config['REDIS_PORT'] = 6379
 
-radio_api = Radio_API(redis)
+radio_api = RadioAPI(redis)
 
 
 @app.route("/api/blank_radios", methods=['POST'])
