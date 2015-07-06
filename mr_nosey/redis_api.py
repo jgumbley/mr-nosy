@@ -1,7 +1,7 @@
 import json
 
 
-class Radio_API(object):
+class RadioAPI(object):
 
     KEY = "radio|"
     KEY_MATCH = KEY + "*"
@@ -12,12 +12,12 @@ class Radio_API(object):
 
     def get_radios(self):
         result = map(
-            lambda each_key: dict(
-                self.get_radio(each_key).items() +
-                {"name": each_key.replace(self.KEY, "")}.items()
+            lambda key: dict(
+                self.get_radio(key).items() +
+                {"name": key.replace(self.KEY, "")}.items()
             ),
             self.redis.scan_iter(match=self.KEY_MATCH)
-            )
+        )
         return result
 
     def blank_radios(self):
@@ -48,4 +48,4 @@ class Radio_API(object):
     @staticmethod
     def _key_for_radio(radio):
         assert radio['name'] is not None
-        return Radio_API.KEY_SEARCH % (radio["name"])
+        return RadioAPI.KEY_SEARCH % (radio["name"])

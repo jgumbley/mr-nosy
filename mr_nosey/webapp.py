@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_redis import Redis
-from redis_api import Radio_API
+from redis_api import RadioAPI
 
 app = Flask(__name__,
             static_url_path='',
