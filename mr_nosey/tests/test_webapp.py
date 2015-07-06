@@ -55,7 +55,7 @@ class WebappTestCase(unittest.TestCase):
         self.app_jsonpost("/api/merge_radio", radio)
         self.app_jsonpost("/api/merge_radio", radio2)
         # then
-        expected_result = {u"name": u"a mac address", u"prop1": u"foo",
-                           u"prop2": u"bar"}
+        expected_result = [{u"name": u"a mac address", u"prop1": u"foo",
+                           u"prop2": u"bar"}]
         assert_that(self.app_allradios(), equal_to(expected_result))
 

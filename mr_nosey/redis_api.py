@@ -12,9 +12,9 @@ class Radio_API(object):
 
     def get_radios(self):
         result = map(
-            lambda radio: dict(
-                json.loads(self.redis.get(radio)).items() +
-                {"name": radio.replace(self.KEY, "")}.items()
+            lambda each_key: dict(
+                self.get_radio(each_key).items() +
+                {"name": each_key.replace(self.KEY, "")}.items()
             ),
             self.redis.scan_iter(match=self.KEY_MATCH)
             )
@@ -29,11 +29,21 @@ class Radio_API(object):
 
     def merge_radio(self, radio):
         key = self._key_for_radio(radio)
+        current = self.get_radio(key)
+        if current:
+            radio.update(current)
+        self.set_radio(radio)
+
+    def set_radio(self, radio):
+        key = self._key_for_radio(radio)
         del radio["name"]
         self.redis.set(key, json.dumps(radio))
 
     def get_radio(self, key):
-        return json.loads(self.redis.get(key))
+        if self.redis.exists(key):
+            return json.loads(self.redis.get(key))
+        else:
+            return None
 
     @staticmethod
     def _key_for_radio(radio):
