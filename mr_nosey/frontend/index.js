@@ -87,6 +87,7 @@ var D3Chart = React.createClass({
        
         this.force = d3.layout.force()
             .charge(-220)
+            .gravity(0.03)
             .size([this.props.width, this.props.height]);
 
         this.updateD3();
@@ -178,8 +179,10 @@ var D3Chart = React.createClass({
                 .attr('x2', function(d) { return d.target.x; })
                 .attr('y2', function(d) { return d.target.y; });
             this.circleJoin
-                .attr('cx', function(d) { return d.x; })
-                .attr('cy', function(d) { return d.y; });
+                .attr("cx", function(d) { return d.x = Math.max(10, Math.min(1920 - 10, d.x)); })
+                .attr("cy", function(d) { return d.y = Math.max(10, Math.min(1080 - 10, d.y)); });
+                //.attr('cx', function(d) { return d.x; })
+                //.attr('cy', function(d) { return d.y; });
         }.bind(this));
 
         this.force.alpha(0.1);
